@@ -196,8 +196,9 @@ async function loadEvents() {
     }
 
     const data = await res.json();
-    const now = new Date().toISOString();
-    allEvents = (data || []).filter(e => !e.start_time || e.start_time >= now);
+allEvents = (data || [])
+  .sort((a, b) => new Date(b.start_time || 0) - new Date(a.start_time || 0))
+  .slice(0, 50);
 
     renderHero(allEvents[0]);
     renderFeed(allEvents);
